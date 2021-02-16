@@ -1,0 +1,48 @@
+@startuml 
+    legend
+    --Legend--
+
+    |= color |= Description |
+    | <#blue> | <color:blue>     Signal |
+    endlegend
+    package "DictToTreeView" #DDDDDD {
+        class Compare {
+            pyqtSignal change_sig
+
+            dict actualize()
+        }
+
+        class DictToTreeView {
+            pyqtSignal data_sig
+
+            void filter_dict()
+        }
+
+        class MyTree {
+
+            void filter_model()
+            void gen_path_dict()
+            void HidePathColumn()
+            tuple insertItem()
+            void update_standard_model()
+        }
+    }
+
+    class USER {
+        pyqtSignal data_sig
+    }
+
+    
+
+    DictToTreeView *-- Compare
+    DictToTreeView *-- MyTree
+
+    USER --> DictToTreeView #line:blue;line.bold;text:blue : sensor_data_sig
+    DictToTreeView --> USER #line:blue;line.bold;text:blue : output_sig
+    Compare --> DictToTreeView #line:blue;line.bold;text:blue : org_dc
+    DictToTreeView --> Compare #line:blue;line.bold;text:blue : data_sig
+    Compare --> MyTree #line:blue;line.bold;text:blue : change_sig
+    Compare --> MyTree #line:blue;line.bold;text:blue : item_edit
+    MyTree --> Compare #line:blue;line.bold;text:blue : itemChanged
+
+@enduml

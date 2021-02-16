@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite errors="0" failures="1" hostname="e2b895ba89a8" name="runtime test" skipped="0" tests="1" time="4.698" timestamp="2021-02-12T14:23:03.948357"><testcase classname="test.test_time" name="test_time_of_signals" time="2.997"><failure message="AssertionError: time(0.9152622222900391) was greater than 0.700s&#10;assert 0.9152622222900391 &lt; 0.7">qtbot = &lt;pytestqt.qtbot.QtBot object at 0x7f73c3501c50&gt;
+
+    def test_time_of_signals(qtbot):
+    
+        #sensor
+        sensor = Sensor_standard()
+    
+        #dicttotreeview
+        treeview = QtWidgets.QTreeView()
+    
+        test_dict2  = {'values': [v + 1 for v in sensor.data_dict['values']] }
+    
+        dtv = DictToTreeView(sensor.data_dict, treeview, reset_column=True, highlight_changes=True)
+        dtv.tree.ShowPathColumn(True)
+    
+        #signals
+        sensor.data_sig.connect(dtv.data_sig)#connect input data
+        #dtv.output_sig.connect(sensor.update_dc)#connect output data
+    
+    
+    
+        with qtbot.waitSignal(dtv.output_sig, timeout=0) as blocker:
+            #change dictionary
+            start = time.time()
+            sensor.data_dict = test_dict2
+            sensor.data_sig.emit(sensor.data_dict)
+            end = time.time()
+    
+        # -s
+        #print(end-start)
+        duration = end-start
+        assert blocker.signal_triggered, 'output signal has not been called'
+        assert duration &lt; 1.0, 'time({}) was GREATER than 1s'.format(duration)
+&gt;       assert duration &lt; 0.7, 'time({}) was greater than 0.700s'.format(duration)
+E       AssertionError: time(0.9152622222900391) was greater than 0.700s
+E       assert 0.9152622222900391 &lt; 0.7
+
+test/test_time.py:47: AssertionError
+---------------------------------------------------------------------------------------------------- Captured Qt messages ----------------------------------------------------------------------------------------------------
+    QtWarningMsg: QStandardPaths: XDG_RUNTIME_DIR not set, defaulting to '/tmp/runtime-root'</failure></testcase></testsuite></testsuites>
