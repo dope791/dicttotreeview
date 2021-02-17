@@ -1,0 +1,14 @@
+Welcome to DictToTreeView's documentation
+==========================================
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Table of contents
+   
+   source/DictToTreeView
+   source/Tutorial
+   source/Classdiagram
+   source/APIreference
+   source/Requirements
+   source/Test_report
+   source/Git-remote
