@@ -25,7 +25,7 @@ jobs:
     - name: Build and publish
       env:
         TWINE_USERNAME: dope791
-        TWINE_PASSWORD: 685ad56b0fd91cb061a7f910507d12d61ac612b9
+        TWINE_PASSWORD: 685ad56b0fd91cb061a7f910507d12d61ac612b9  
       run: |
         python setup.py sdist bdist_wheel
-        twine upload dist/*
+        twine upload --repository-url: https://github.com/dicttotreeview dist/*
