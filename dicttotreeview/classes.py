@@ -1,10 +1,10 @@
-import sys
 import copy 
 import re
 from deepdiff import DeepDiff, Delta
-from PyQt5 import QtCore, QtWidgets, QtGui
+from PyQt5 import QtCore, QtGui
 from PyQt5.QtCore import pyqtSignal, pyqtSlot, QObject, QSortFilterProxyModel
-from PyQt5.QtWidgets import QAbstractItemView
+from pprintpp import pprint as pp
+
                                                                 
 
 
@@ -39,7 +39,6 @@ class Compare(QObject):
         """
         self.colored = colored  
 
-
     @pyqtSlot('QStandardItem*')
     def edit_item(self, item):
         """
@@ -49,7 +48,7 @@ class Compare(QObject):
 
         =============== ======================= ========================================
         **Arguments:**   **type:**
-        *item*          *QtGui.QStandarditem*   item that has changed
+        *item*          *QtGui.QStandardItem*   item that has changed
         =============== ======================= ========================================
         """
         #calling the function again:
@@ -117,7 +116,7 @@ class Compare(QObject):
 
         =============== =================== =========================================
         **Return:**      **type:**
-        *changes*       *DeepDiff*            dictionary of changes
+        *change*         *DeepDiff*            dictionary of changes
         =============== =================== =========================================
         """
         change = DeepDiff(self.data_dict,new_data)
@@ -164,7 +163,7 @@ class Compare(QObject):
 
     def set_value(self,dc,path_list,value):
         """
-        Set a value to a dictionary with description of path.
+        Pushes the value into dictionary[path].
 
         =============== ========================= ===========================================
         **Arguments:**   **type:**
@@ -195,7 +194,7 @@ class DictToTreeView(QObject):
     data_sig: pyqtSignal = pyqtSignal(dict)
     output_sig: pyqtSignal = pyqtSignal(dict)
     
-    def __init__(self, original_dict: dict, TreeView: QtWidgets.QTreeView, patterns=[], reset_column=False, highlight_changes=False):
+    def __init__(self, original_dict: dict, TreeView, patterns=[], reset_column=False, highlight_changes=False):
         """
         Set Your dictionary and Your corresponding treeview.
 
@@ -251,7 +250,6 @@ class DictToTreeView(QObject):
             elif isinstance(original_dict[key],dict):
                 self.filter_dict(original_dict[key],data_dict[key],pattern)
 
-
     @pyqtSlot(dict)
     def update_org_dc(self, dc):
         """
@@ -266,7 +264,6 @@ class DictToTreeView(QObject):
         self.output_sig.emit(self.original_dict)
         
             
-    
 class MyTree(QObject):
     """
     This class creates the actual tree with `QStandardItem`s in a `QStandardItemModel`.
@@ -335,7 +332,7 @@ class MyTree(QObject):
         self.TreeView.setColumnHidden(4,True)
         self.TreeView.setColumnHidden(5,True)
         #generate path dictionary
-        self.gen_path_dict(self.standard_model,self.path_dict)    
+        self.gen_path_dict(self.standard_model,self.path_dict)   
         
 
     def EnableResetColumn(self, reset: bool):
@@ -351,7 +348,6 @@ class MyTree(QObject):
         self.TreeView.setColumnHidden(4,not reset)
         self.TreeView.setColumnHidden(5,not reset)
     
-
     @pyqtSlot(str)
     def filter_model(self, pattern):
         """
@@ -415,6 +411,7 @@ class MyTree(QObject):
         """
         Adds an item to the model.
         4 Columns: name, type, value, path 
+        + default, reset
 
         ================= ============================ ========================================
         **Arguments:**    **type:**
@@ -449,8 +446,12 @@ class MyTree(QObject):
             #create path item
             path_item = QtGui.QStandardItem()
             path_item.setEditable(False)
-            #add yourself to hierarchy
-            path = path + "['{}']".format(text)
+            #switch case for list indices 
+            try:
+                int(text)
+                path = path + "[{}]".format(text)
+            except:    
+                path = path + "['{}']".format(text)
             path_item.setText(path)
             #create item with default values (e.g. initial values)
             dflt_item = QtGui.QStandardItem()
@@ -474,7 +475,11 @@ class MyTree(QObject):
             value_item.setText(str(item))
             path_item = QtGui.QStandardItem()
             path_item.setEditable(False)
-            path = path + "['{}']".format(text)
+            try:
+                int(text)
+                path = path + "[{}]".format(text)
+            except:    
+                path = path + "['{}']".format(text)
             path_item.setText(path)
             dflt_item = QtGui.QStandardItem()
             dflt_item.setData(item)
@@ -493,9 +498,13 @@ class MyTree(QObject):
             type_item.setEditable(False)
             type_item.setText('list')
             path_item = QtGui.QStandardItem()
-            path_item.setEditable(False)
-            path = path + "['{}']".format(text)
+            try:
+                int(text)
+                path = path + "[{}]".format(text)
+            except:    
+                path = path + "['{}']".format(text)
             path_item.setText(path)
+            path_item.setEditable(False)
             dflt_item = QtGui.QStandardItem()
             dflt_item.setEditable(False)
             reset_item = QtGui.QStandardItem()
@@ -506,57 +515,13 @@ class MyTree(QObject):
             value_item.setEditable(False)
             #add every position of list
             for i in range(0,len(item)):
-                temp_standard_item = QtGui.QStandardItem()
-                temp_standard_item.setEditable(False)
-                temp_standard_item.setData(item[i])
-                temp_standard_item.setText(str(i))
-                temp_type_item = QtGui.QStandardItem()
-                temp_type_item.setEditable(False)
-                temp_dflt_item = QtGui.QStandardItem()
-                temp_dflt_item.setEditable(False)
-                temp_reset_item = QtGui.QStandardItem()
-                temp_reset_item.setData(icon,role=1)
-                temp_reset_item.setEditable(False)
-                temp_value_item = QtGui.QStandardItem()
-                temp_value_item.setText(str(item[i]))
-                if isinstance(item[i],int):
-                    temp_type_item.setText('int')
-                    temp_dflt_item.setText(str(item[i]))
-                    temp_dflt_item.setData(item[i])               
-                if isinstance(item[i],float):
-                    temp_type_item.setText('float') 
-                    temp_dflt_item.setText(str(item[i]))
-                    temp_dflt_item.setData(item[i])                
-                if isinstance(item[i],str):
-                    temp_type_item.setText('str')
-                    temp_value_item.setText(item[i])
-                    temp_dflt_item.setText(item[i])
-                if isinstance(item[i],dict):
-                    temp_type_item.setText('dict')
-                    text = 'length='+"{}".format(len(item[i]))
-                    temp_value_item.setText(text)
-                    temp_value_item.setEditable(False) 
-                temp_path_item = QtGui.QStandardItem()
-                temp_path_item.setEditable(False)
-                temp_path = path + "[{}]".format(i)
-                temp_path_item.setText(temp_path)
-                standard_item.setChild(i,0,temp_standard_item)
-                standard_item.setChild(i,1,temp_type_item)
-                standard_item.setChild(i,2,temp_value_item)
-                standard_item.setChild(i,3,temp_path_item)
-                standard_item.setChild(i,4,temp_dflt_item)
-                standard_item.setChild(i,5,temp_reset_item)
-                if isinstance(item[i],dict):
-                    item_row = 0
-                    for key in item[i]:
-                        temp_item = self.insertItem(item[i][key],key,temp_path)
-                        temp_standard_item.setChild(item_row,0,temp_item[0])
-                        temp_standard_item.setChild(item_row,1,temp_item[1])
-                        temp_standard_item.setChild(item_row,2,temp_item[2])
-                        temp_standard_item.setChild(item_row,3,temp_item[3])
-                        temp_standard_item.setChild(item_row,4,temp_item[4])
-                        temp_standard_item.setChild(item_row,5,temp_item[5])
-                        item_row += 1   
+                temp_list_item = self.insertItem(item[i],str(i),path)
+                standard_item.setChild(i,0,temp_list_item[0])
+                standard_item.setChild(i,1,temp_list_item[1])
+                standard_item.setChild(i,2,temp_list_item[2])
+                standard_item.setChild(i,3,temp_list_item[3])
+                standard_item.setChild(i,4,temp_list_item[4])
+                standard_item.setChild(i,5,temp_list_item[5])
                 
         elif isinstance(item,str):
             standard_item = QtGui.QStandardItem()
@@ -570,7 +535,11 @@ class MyTree(QObject):
             value_item.setText(item)
             path_item = QtGui.QStandardItem()
             path_item.setEditable(False)
-            path = path + "['{}']".format(text)
+            try:
+                int(text)
+                path = path + "[{}]".format(text)
+            except:    
+                path = path + "['{}']".format(text)
             path_item.setText(path)
             dflt_item = QtGui.QStandardItem()
             dflt_item.setData(item)
@@ -592,7 +561,11 @@ class MyTree(QObject):
             value_item.setText(str(item))
             path_item = QtGui.QStandardItem()
             path_item.setEditable(False)
-            path = path + "['{}']".format(text)
+            try:
+                int(text)
+                path = path + "[{}]".format(text)
+            except:    
+                path = path + "['{}']".format(text)
             path_item.setText(path)
             dflt_item = QtGui.QStandardItem()
             dflt_item.setData(item)
@@ -612,7 +585,11 @@ class MyTree(QObject):
             type_item.setText('dict')
             path_item = QtGui.QStandardItem()
             path_item.setEditable(False)
-            path = path + "['{}']".format(text)
+            try:
+                int(text)
+                path = path + "[{}]".format(text)
+            except:    
+                path = path + "['{}']".format(text)
             path_item.setText(path)
             dflt_item = QtGui.QStandardItem()
             dflt_item.setEditable(False)
@@ -650,7 +627,11 @@ class MyTree(QObject):
             value_item.setText(str(item))
             path_item = QtGui.QStandardItem()
             path_item.setEditable(False)
-            path = path + "['{}']".format(text)
+            try:
+                int(text)
+                path = path + "[{}]".format(text)
+            except:    
+                path = path + "['{}']".format(text)
             path_item.setText(path)
             dflt_item = QtGui.QStandardItem()
             dflt_item.setData(item)
@@ -664,23 +645,32 @@ class MyTree(QObject):
 
 
     def reset_value(self, index):
+        """
+        Reset the value of the clicked/chosen row. 
+
+        ================= ============================ ========================================
+        **Arguments:**    **type:**
+        *index*            *QtCore.QModelIndex*         index of the item
+        ================= ============================ ========================================
+        """
         #only when reset item clicked
         if index.data(role=1):
-            parent_index = index.parent()
-            parent_item_list = self.standard_model.findItems(parent_index.data(),QtCore.Qt.MatchRecursive)
-            parent_item = parent_item_list[0]
-            parent_index_model = self.standard_model.indexFromItem(parent_item)
-            type_index_model = parent_index_model.siblingAtColumn(1)
-            type_item = self.standard_model.itemFromIndex(type_index_model)
             default_index = index.siblingAtColumn(4)
             value_index = index.siblingAtColumn(2)
             name_index = index.siblingAtColumn(0)
-            if type_item.text() == 'list':
-                list_index = int(name_index.data())
-                list_value_item = parent_item.child(list_index,2)
-                value_item = list_value_item
-                #print("", name[i])
-                print("DictToTreeView: ","{}[{}]".format(parent_item.text(),list_index)," ", value_item.text() ,"to", default_index.data())
+            parent_index = index.parent()
+            parent_item_list = self.standard_model.findItems(parent_index.data(),QtCore.Qt.MatchRecursive)
+            if parent_item_list != []:   
+                parent_item = parent_item_list[0]
+                parent_index_model = self.standard_model.indexFromItem(parent_item)
+                type_index_model = parent_index_model.siblingAtColumn(1)
+                type_item = self.standard_model.itemFromIndex(type_index_model)
+                if type_item.text() == 'list':
+                    list_index = int(name_index.data())
+                    list_value_item = parent_item.child(list_index,2)
+                    value_item = list_value_item
+                    #print("", name[i])
+                    print("DictToTreeView: ","{}[{}]".format(parent_item.text(),list_index)," ", value_item.text() ,"to", default_index.data())
             else:
                 name_item_list = self.standard_model.findItems(name_index.data(),QtCore.Qt.MatchRecursive)
                 name_item = name_item_list[0]
@@ -696,6 +686,7 @@ class MyTree(QObject):
             #reconnect itemChanged signal with Compare method
             self.standard_model.itemChanged.connect(self.comp.edit_item)
 
+
     def ShowPathColumn(self, hide: bool):
         """
         You can show column 4 with the path in it. Default is False.
@@ -706,7 +697,6 @@ class MyTree(QObject):
         ================= ============================ ========================================
         """
         self.TreeView.setColumnHidden(3,not hide)
-
 
     @pyqtSlot(bool)
     def set_color(self, colored):
@@ -720,7 +710,6 @@ class MyTree(QObject):
         ================= ============================ ========================================
         """ 
         self.colored = colored  
-    
     
     @pyqtSlot(QtCore.QModelIndex,str,object)
     def update_path_dict(self, index, path, value): 

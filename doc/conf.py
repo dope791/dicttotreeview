@@ -3,7 +3,11 @@ import sphinx_rtd_theme
 import sys, os
 from datetime import datetime
 
+sys.path.append('..')
+
 exclude_patterns = ['_build']
+
+
 
 # Include path
 
@@ -15,13 +19,14 @@ if os.environ.get('CI_PROJECT_DIR'):
     sys.path.insert(0,CI_PROJECT_DIR)
     sys.path.insert(0,CI_PROJECT_DIR+'/doc') 
 else:
-    raise(Exception('Environment variable $CI_PROJECT_DIR must be set!!!'))
+    CI_PROJECT_DIR = ""
+    #raise(Exception('Environment variable $CI_PROJECT_DIR must be set!!!'))
 
 
-from lib.generate_git_info import export_git_remote_info_to_rst
+#from lib.generate_git_info import export_git_remote_info_to_rst
 
 # generate rst file with git remote info
-export_git_remote_info_to_rst(out=CI_PROJECT_DIR+'/doc/_auto',rootdir=CI_PROJECT_DIR+'/')
+#export_git_remote_info_to_rst(out=CI_PROJECT_DIR+'/doc/_auto',rootdir=CI_PROJECT_DIR+'/')
 
 
 # -- Project information -----------------------------------------------------
@@ -58,7 +63,7 @@ needs_services = {
 now = datetime.now()
 
 #Use plantUML
-plantuml = 'java -jar /app/plantuml.jar'
+plantuml = 'java -jar "C:/Users/Elena Grammel/Desktop/dicttotreeview/doc/plantuml.jar"'
 templates_path = ['../templates']
 
 # -- Options for HTML output -------------------------------------------------
