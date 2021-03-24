@@ -1,4 +1,3 @@
-#Baumer Template conf.py
 import sphinx_rtd_theme
 import sys, os
 from datetime import datetime
@@ -6,27 +5,6 @@ from datetime import datetime
 sys.path.append('..')
 
 exclude_patterns = ['_build']
-
-
-
-# Include path
-
-if os.environ.get('CI_PROJECT_DIR'):
-   
-    CI_PROJECT_DIR = os.environ['CI_PROJECT_DIR']
-    print('$CI_PROJECT_DIR = {}'.format(CI_PROJECT_DIR))
-
-    sys.path.insert(0,CI_PROJECT_DIR)
-    sys.path.insert(0,CI_PROJECT_DIR+'/doc') 
-else:
-    CI_PROJECT_DIR = ""
-    #raise(Exception('Environment variable $CI_PROJECT_DIR must be set!!!'))
-
-
-#from lib.generate_git_info import export_git_remote_info_to_rst
-
-# generate rst file with git remote info
-#export_git_remote_info_to_rst(out=CI_PROJECT_DIR+'/doc/_auto',rootdir=CI_PROJECT_DIR+'/')
 
 
 # -- Project information -----------------------------------------------------

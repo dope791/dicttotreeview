@@ -5,7 +5,7 @@ Welcome to DictToTreeView's documentation
    :maxdepth: 1
    :caption: Table of contents
    
-   source/DictToTreeView
+   source/dicttotreeview
    source/Tutorial
    source/Classdiagram
    source/APIreference

@@ -8,4 +8,11 @@ pytest==6.1.1
 pytest-qt==3.3.0
 pytest-xvfb==2.0.0
 pprintpp==0.4.0
+sphinxcontrib-needs==0.6.0
+recommonmark==0.7.1
+sphinx-test-reports==0.3.3
+breahte==4.27.0
+sphinxcontrib-plantuml==0.19
+sphinx-rtd-theme==0.5.1
 
+#download plantuml.jar https://sourceforge.net/projects/plantuml/

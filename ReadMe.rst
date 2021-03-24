@@ -1,5 +1,5 @@
 ***************
-DictToTreeView
+dicttotreeview
 ***************
 
 .. |pipeline status| image:: https://gitlab.baumernet.org/bech/rd/po1/personal/egr/dicttotreeview/badges/milestone3/pipeline.svg

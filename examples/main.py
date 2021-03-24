@@ -8,7 +8,9 @@ import sys
 sys.path.append('.')
 from PyQt5 import QtWidgets
 from usercode import DummySensor, MainWindow
-from dicttotreeview import DictToTreeView 
+# from dicttotreeview import DictToTreeView
+# use this method as long as no pip config file is set OR pypi launched
+from dicttotreeview.classes import DictToTreeView
 
 
 from pprintpp import pprint as pp
@@ -39,7 +41,7 @@ if __name__ == "__main__":
     sensor.sensor_data_sig.connect(myInstance.data_sig)#connect input data
     myInstance.output_sig.connect(sensor.update_dc)#connect output data
 
-    window.ui.lineEdit.textChanged.connect(myInstance.tree.filter_model)#activate SearchingLine 
+    window.ui.lineEdit.textChanged.connect(myInstance.tree.filter_model)#activate searching line 
     ##########################################################################################################
 
 

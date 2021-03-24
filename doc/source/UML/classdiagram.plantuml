@@ -5,25 +5,37 @@
     |= color |= Description |
     | <#blue> | <color:blue>     Signal |
     endlegend
-    package "DictToTreeView" #DDDDDD {
+    package "dicttotreeview" #DDDDDD {
         class Compare {
             pyqtSignal change_sig
+            pyqtSignal org_dc
+            pyqtSignal item_edit
 
-            dict actualize()
+            void Colored_Change()
+            void edit_item()
+            DeepDiff get_new_data()
+            any get_value()
+            void set_value()
         }
 
         class DictToTreeView {
             pyqtSignal data_sig
+            pyqtSignal output_sig
 
             void filter_dict()
+            void update_org_dc()
         }
 
         class MyTree {
 
+            void EnableResetColumn()
             void filter_model()
             void gen_path_dict()
-            void HidePathColumn()
             tuple insertItem()
+            void reset_value()
+            void ShowPathColumn()
+            void set_color()
+            void update_path_dict() 
             void update_standard_model()
         }
     }
@@ -34,8 +46,8 @@
 
     
 
-    DictToTreeView *-- Compare
-    DictToTreeView *-- MyTree
+    DictToTreeView "1" o-- Compare
+    DictToTreeView "1" o-- MyTree
 
     USER --> DictToTreeView #line:blue;line.bold;text:blue : sensor_data_sig
     DictToTreeView --> USER #line:blue;line.bold;text:blue : output_sig
