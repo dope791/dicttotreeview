@@ -11,4 +11,3 @@ Welcome to DictToTreeView's documentation
    source/APIreference
    source/Requirements
    source/Test_report
-   source/Git-remote
