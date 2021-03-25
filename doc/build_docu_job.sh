@@ -5,7 +5,7 @@
 # Run the script using ./<fileName>
 
 # in git-bash:
-# "./sphinx-quickstart-script.sh -p dicttotreeview -a egr -v 1.3"
+./sphinx-quickstart-script.sh -p dicttotreeview -a egr -v 1.3
 
 # in VSCode cmd:
 # "make html" 
