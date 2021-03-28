@@ -6,8 +6,8 @@ Welcome to DictToTreeView's documentation
    :caption: Table of contents
    
    source/dicttotreeview
-   source/Tutorial
-   source/Classdiagram
+   tutorial <source/Tutorial>
+   class diagram <source/Classdiagram> 
    source/APIreference
-   source/Requirements
-   source/Test_report
+   requirements <source/Requirements>
+   tests <source/Test_report>
