@@ -1,5 +1,6 @@
 {
-    "restructuredtext.confPath": "/doc/",
+    "restructuredtext.builtDocumentationPath": "${workspaceFolder}/doc/_build/html",
     "python.pythonPath": "C:\\Users\\Elena Grammel\\envs\\dicttotreeview\\Scripts\\python.exe",
+    "restructuredtext.confPath": "${workspaceFolder}\\doc",
 }
     
