@@ -230,6 +230,8 @@ class DictToTreeView(QObject):
         self.comp.org_dc.connect(self.update_org_dc)#update original_dict
 
         self.tree.standard_model.itemChanged.connect(self.comp.edit_item)#editing dict in GUI(manual)
+
+        self.tree.TreeView.clicked.connect(self.tree.reset_value)#user clicks reset button
         #############################################################################################
 
 
@@ -323,7 +325,7 @@ class MyTree(QObject):
         #set treeview
         self.TreeView.setModel(self.proxyModel)
         self.TreeView.resizeColumnToContents(0)
-        self.TreeView.clicked.connect(self.reset_value)
+        #self.TreeView.clicked.connect(self.reset_value)
         self.TreeView.setSelectionBehavior(0)
         self.TreeView.setAlternatingRowColors(True)
         #search with column 4 but not display it
