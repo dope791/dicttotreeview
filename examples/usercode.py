@@ -1,16 +1,13 @@
 import sys
+sys.path.append('.')
 import copy 
-import numpy as np
 import time
-from deepdiff import DeepDiff, Delta
+from deepdiff import DeepDiff
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtCore import pyqtSignal, pyqtSlot, QObject
-from MainWindow import Ui_MainWindow  
-sys.path.append('.')
+from MainWindow import Ui_MainWindow 
 from pprintpp import pprint as pp
-
-
-
+ 
 class DummySensor(QObject):
     sensor_data_sig: pyqtSignal = pyqtSignal('PyQt_PyObject')
      
@@ -49,4 +46,3 @@ class MainWindow(QtWidgets.QMainWindow):
         self.TreeView = self.ui.treeView
         
          
-
