@@ -200,8 +200,8 @@ class DictToTreeView(QObject):
 
         ===================== ======================== ===================================================================
         **Arguments:**        **type:**
-        *data dictionary*     *dict*                    dictionary to be initialized firstly, structure will be supported
-        *treeview*            *QtWidgets.QTreeView*     TreeView 
+        *original_dict*       *dict*                    dictionary to be initialized firstly, structure will be supported
+        *TreeView*            *QtWidgets.QTreeView*     TreeView 
         *patterns*            *list*                    list of patterns to be filtered in keys of model_dict
         *reset_column*        *bool*                    sets reset columns enabled
         *highlight_changes*   *bool*                    displays changed values colored
@@ -375,10 +375,11 @@ class MyTree(QObject):
         This funciton generates recursively an index dictionary for the update-method.
 
         ================= ============================ ========================================
-        **Arguments:**    **type:**
-        *item*            *QtGui.QStandardItem(Model)*   relative headitem
-        *idx_dict*        *dict*                         created dictionary  
-        *path*            *str*                          path string as prefix
+        **Arguments:**     **type:**
+        *item*             *QtGui.QStandardItem(Model)*   relative headitem
+        *parent_idx_dict*  *dict*                         created dictionary  
+        *path*             *str*                          path string as prefix
+        *list_counter*     *int*                          counts index
         ================= ============================ ========================================
         """
         parent_prefix = path
@@ -738,7 +739,7 @@ class MyTree(QObject):
 
         ================= ============================ ============================================
         **Arguments:**    **type:**
-        *changed items*   *DeepDiff*                    dict of changes in the current dictionary
+        *changed_items*   *DeepDiff*                    dict of changes in the current dictionary
         ================= ============================ ============================================
         """
         #disconnect the items from everything
@@ -766,13 +767,3 @@ class MyTree(QObject):
                     self.path_dict[i]['data/value'] = new_value
         #reconnect itemChanged signal with Compare method
         self.standard_model.itemChanged.connect(self.comp.edit_item)
-
-
-    
-            
-
-       
-    
-
-
- 
