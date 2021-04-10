@@ -2,17 +2,15 @@
 dicttotreeview
 ***************
 
-.. |pipeline status| image:: https://gitlab.baumernet.org/bech/rd/po1/personal/egr/dicttotreeview/badges/milestone3/pipeline.svg
-  :target: https://gitlab.baumernet.org/bech/rd/po1/personal/egr/dicttotreeview/-/pipelines
 .. |python| image:: https://img.shields.io/badge/python-3.7-blue
   :target: https://www.python.org/dev/peps/pep-0537/
 .. |docs| image:: https://img.shields.io/badge/docs-master-orange
-  :target: https://gitlab-doc.baumernet.org/dicttotreeview/master/
-.. |version| image:: https://img.shields.io/badge/Version-1.3-green
-  :target: https://gitlab.baumernet.org/bech/rd/po1/personal/egr/dicttotreeview/-/releases
+  :target: file:///C:/Users/Elena%20Grammel/Desktop/dicttotreeview/doc/_build/html/index.html
+.. |version| image:: https://img.shields.io/badge/version-1.4-green
+  :target: https://github.com/dope791/dicttotreeview/releases/tag/1.4
 
 
-|pipeline status| |python| |docs| |version|
+|python| |docs| |version|
 
 
 This package displays and actualizes a given dictionary on a given TreeView. (GUI)
@@ -24,10 +22,10 @@ Web resources
 =============
 
 
-* **GitLab Repository**: https://gitlab.baumernet.org/bech/rd/po1/personal/egr/dicttotreeview 
+* **GitHub Repository**: https://github.com/dope791/dicttotreeview 
 
 
-* **Documentation**: https://gitlab-doc.baumernet.org/dicttotreeview
+* **Documentation**: file:///C:/Users/Elena%20Grammel/Desktop/dicttotreeview/doc/_build/html/index.html
    
 
 Usage
@@ -67,19 +65,10 @@ If you have access to the repository, you can also install a specific **<tag>** 
 
 .. code:: bash
 
-    python -m pip install --upgrade "git+ssh://git@gitlab.baumernet.org/bech/rd/po1/personal/egr/DictToTreeView.git@<tag>"
+    python -m pip install --upgrade "git+ssh://github.com/dope791/dicttotreeview.git@<tag>"
 
 
-See `Sphinx Documentation`_ project for more information about **building a Documentation**.
 
-.. _Sphinx Documentation: https://gitlab.baumernet.org/bech/rd/po1/personal/egr/sphinx_documentation
-
-
-.. tip::
-
-    For  information about **package upload** see `Package_Registry_PyPi`_.
-
-    .. _Package_Registry_PyPi: https://gitlab.baumernet.org/bech/rd/po1/personal/egr/package_registry_pypi
 
 
 
